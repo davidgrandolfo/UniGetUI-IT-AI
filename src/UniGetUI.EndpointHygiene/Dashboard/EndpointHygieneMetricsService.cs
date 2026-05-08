@@ -1,5 +1,6 @@
 using UniGetUI.EndpointHygiene.Models;
 using UniGetUI.EndpointHygiene.Risk;
+using UniGetUI.EndpointHygiene.Services;
 
 namespace UniGetUI.EndpointHygiene.Dashboard;
 
@@ -25,7 +26,7 @@ public sealed class EndpointHygieneMetricsService
                 highOrCritical++;
         }
 
-        int maxScore = Math.Max(snapshot.Items.Count * 100, 1);
+        int maxScore = Math.Max(snapshot.Items.Count * HygieneDefaults.MaxRiskScorePerItem, 1);
         int normalized = Math.Max(0, 100 - (scoreAccumulator * 100 / maxScore));
 
         return new EndpointHygieneSnapshot

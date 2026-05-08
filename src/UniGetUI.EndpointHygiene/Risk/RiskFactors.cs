@@ -8,4 +8,5 @@ public sealed class RiskFactors
     public bool HighRiskManager { get; set; }
     public bool RecentFailure { get; set; }
     public bool CveExposed { get; set; }
+    public bool BlockedPublisher { get; set; }
 }

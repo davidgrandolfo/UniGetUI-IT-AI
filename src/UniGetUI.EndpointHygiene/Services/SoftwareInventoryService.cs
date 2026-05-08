@@ -55,7 +55,7 @@ public sealed class SoftwareInventoryService : ISoftwareInventoryService
         foreach (string line in Settings.GetValue(Settings.K.OperationHistory).Split('\n'))
         {
             string clean = line.Trim();
-            if (!clean.Contains("Package=", StringComparison.OrdinalIgnoreCase))
+            if (!clean.Contains(HygieneDefaults.OperationHistoryPackageMarker, StringComparison.OrdinalIgnoreCase))
                 continue;
 
             bool failure = clean.Contains("failed", StringComparison.OrdinalIgnoreCase)
@@ -63,10 +63,12 @@ public sealed class SoftwareInventoryService : ISoftwareInventoryService
             if (!failure)
                 continue;
 
-            int idx = clean.IndexOf("Package=", StringComparison.OrdinalIgnoreCase);
+            int idx = clean.IndexOf(HygieneDefaults.OperationHistoryPackageMarker, StringComparison.OrdinalIgnoreCase);
             if (idx < 0)
                 continue;
-            string id = clean[(idx + "Package=".Length)..].Split(' ', '\\', '\n', '\r').FirstOrDefault() ?? "";
+            string id = clean[(idx + HygieneDefaults.OperationHistoryPackageMarker.Length)..]
+                .Split(' ', '\\', '\n', '\r')
+                .FirstOrDefault() ?? "";
             if (!string.IsNullOrWhiteSpace(id))
                 failed.Add(id.Trim());
         }

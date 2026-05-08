@@ -58,7 +58,7 @@ public sealed class RiskScoreService : IRiskScoreService
         if (context.BlockedPublishers.Contains(item.Publisher))
         {
             score += 35;
-            factors.CveExposed = true;
+            factors.BlockedPublisher = true;
             reasons.Add("Publisher is blocked by policy.");
         }
 

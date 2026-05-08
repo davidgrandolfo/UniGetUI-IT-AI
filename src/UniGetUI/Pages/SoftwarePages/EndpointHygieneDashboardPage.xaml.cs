@@ -27,7 +27,7 @@ public sealed partial class EndpointHygieneDashboardPage : Page
                 ApprovedSources = policy.ApprovedSources,
                 CriticalApps = policy.CriticalAppsRequiringApproval,
                 BlockedPublishers = policy.BlockedPublishers,
-                HighRiskManagers = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "scoop" },
+                HighRiskManagers = new HashSet<string>(HygieneDefaults.HighRiskManagers, StringComparer.OrdinalIgnoreCase),
             };
 
             var dashboard = EndpointHygieneBootstrap.Metrics.Build(snapshot, context);

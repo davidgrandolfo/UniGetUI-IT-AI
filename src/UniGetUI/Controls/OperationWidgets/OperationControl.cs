@@ -187,7 +187,7 @@ public partial class OperationControl : INotifyPropertyChanged
 
         List<string> newHistory = [.. rawOutput, .. oldHistory];
         Settings.SetValue(Settings.K.OperationHistory, string.Join('\n', newHistory));
-        _ = EndpointHygieneBootstrap.Audit.AppendAsync(
+        await EndpointHygieneBootstrap.Audit.AppendAsync(
             new AuditLogEntry
             {
                 Actor = Environment.UserName,

@@ -74,7 +74,7 @@ public static class IpcEndpointHygieneApi
             CriticalApps = policy.CriticalAppsRequiringApproval,
             BlockedPublishers = policy.BlockedPublishers,
             FailedPackages = failedPackages,
-            HighRiskManagers = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "scoop" },
+            HighRiskManagers = new HashSet<string>(HygieneDefaults.HighRiskManagers, StringComparer.OrdinalIgnoreCase),
         };
     }
 }
