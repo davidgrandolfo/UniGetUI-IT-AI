@@ -7,6 +7,7 @@ using UniGetUI.PackageEngine.Managers.NpmManager;
 using UniGetUI.PackageEngine.Managers.PipManager;
 using UniGetUI.PackageEngine.Managers.PowerShell7Manager;
 using UniGetUI.PackageEngine.Managers.VcpkgManager;
+using UniGetUI.EndpointHygiene.Services;
 using UniGetUI.PackageEngine.PackageClasses;
 using UniGetUI.PackageEngine.PackageLoader;
 #if WINDOWS
@@ -91,6 +92,7 @@ namespace UniGetUI.PackageEngine
             InstalledPackagesLoader.Instance = new InstalledPackagesLoader(Managers);
             UpgradablePackagesLoader.Instance = new UpgradablePackagesLoader(Managers);
             PackageBundlesLoader.Instance = new PackageBundlesLoader_I(Managers);
+            EndpointHygieneBootstrap.Initialize();
         }
 
         public static void LoadManagers()

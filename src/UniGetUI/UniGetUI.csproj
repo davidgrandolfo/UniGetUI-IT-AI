@@ -407,6 +407,7 @@
         <ProjectReference Include="..\ExternalLibraries.FilePickers\ExternalLibraries.FilePickers.csproj" />
         <ProjectReference Include="..\UniGetUI.Core.Classes\UniGetUI.Core.Classes.csproj" />
         <ProjectReference Include="..\UniGetUI.Core.Data\UniGetUI.Core.Data.csproj" />
+        <ProjectReference Include="..\UniGetUI.EndpointHygiene\UniGetUI.EndpointHygiene.csproj" />
         <ProjectReference Include="..\UniGetUI.Core.IconStore\UniGetUI.Core.IconEngine.csproj" />
         <ProjectReference Include="..\UniGetUI.Core.LanguageEngine\UniGetUI.Core.LanguageEngine.csproj" />
         <ProjectReference Include="..\UniGetUI.Core.Logger\UniGetUI.Core.Logging.csproj" />

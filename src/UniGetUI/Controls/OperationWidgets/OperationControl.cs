@@ -15,6 +15,8 @@ using UniGetUI.Interface;
 using UniGetUI.Interface.Enums;
 using UniGetUI.Interface.Telemetry;
 using UniGetUI.Interface.Widgets;
+using UniGetUI.EndpointHygiene.Audit;
+using UniGetUI.EndpointHygiene.Services;
 using UniGetUI.PackageEngine;
 using UniGetUI.PackageEngine.Classes.Packages.Classes;
 using UniGetUI.PackageEngine.Enums;
@@ -185,6 +187,17 @@ public partial class OperationControl : INotifyPropertyChanged
 
         List<string> newHistory = [.. rawOutput, .. oldHistory];
         Settings.SetValue(Settings.K.OperationHistory, string.Join('\n', newHistory));
+        _ = EndpointHygieneBootstrap.Audit.AppendAsync(
+            new AuditLogEntry
+            {
+                Actor = Environment.UserName,
+                Action = Operation.Metadata.Title,
+                Target = Operation.Metadata.Identifier,
+                Result = Operation.Status.ToString(),
+                Reason = Operation.Metadata.OperationInformation,
+                AiRecommendation = "N/A",
+            }
+        );
         rawOutput.Add("");
         rawOutput.Add("");
         rawOutput.Add("");
