@@ -174,6 +174,22 @@ namespace UniGetUI.Interface
                             V3_GetOperationHistory
                         );
                         endpoints.MapGet(IpcHttpRoutes.Path("/logs/manager"), V3_GetManagerLog);
+                        endpoints.MapGet(
+                            IpcHttpRoutes.Path("/hygiene/inventory"),
+                            V3_GetHygieneInventory
+                        );
+                        endpoints.MapGet(
+                            IpcHttpRoutes.Path("/hygiene/remediation-plan"),
+                            V3_GetHygieneRemediationPlan
+                        );
+                        endpoints.MapGet(
+                            IpcHttpRoutes.Path("/hygiene/dashboard"),
+                            V3_GetHygieneDashboard
+                        );
+                        endpoints.MapGet(
+                            IpcHttpRoutes.Path("/hygiene/audit/path"),
+                            V3_GetHygieneAuditPath
+                        );
                         endpoints.MapGet(IpcHttpRoutes.Path("/backups/status"), V3_GetBackupStatus);
                         endpoints.MapPost(
                             IpcHttpRoutes.Path("/backups/local/create"),
@@ -1171,6 +1187,78 @@ namespace UniGetUI.Interface
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsync(ex.Message);
             }
+        }
+
+        private async Task V3_GetHygieneInventory(HttpContext context)
+        {
+            if (!AuthenticateToken(context.Request.Query["token"]))
+            {
+                context.Response.StatusCode = 401;
+                return;
+            }
+
+            await context.Response.WriteAsJsonAsync(
+                await IpcEndpointHygieneApi.GetInventoryAsync(),
+                new JsonSerializerOptions(SerializationHelpers.DefaultOptions)
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                    WriteIndented = true,
+                }
+            );
+        }
+
+        private async Task V3_GetHygieneRemediationPlan(HttpContext context)
+        {
+            if (!AuthenticateToken(context.Request.Query["token"]))
+            {
+                context.Response.StatusCode = 401;
+                return;
+            }
+
+            await context.Response.WriteAsJsonAsync(
+                await IpcEndpointHygieneApi.GetRemediationPlanAsync(),
+                new JsonSerializerOptions(SerializationHelpers.DefaultOptions)
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                    WriteIndented = true,
+                }
+            );
+        }
+
+        private async Task V3_GetHygieneDashboard(HttpContext context)
+        {
+            if (!AuthenticateToken(context.Request.Query["token"]))
+            {
+                context.Response.StatusCode = 401;
+                return;
+            }
+
+            await context.Response.WriteAsJsonAsync(
+                await IpcEndpointHygieneApi.GetDashboardAsync(),
+                new JsonSerializerOptions(SerializationHelpers.DefaultOptions)
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                    WriteIndented = true,
+                }
+            );
+        }
+
+        private async Task V3_GetHygieneAuditPath(HttpContext context)
+        {
+            if (!AuthenticateToken(context.Request.Query["token"]))
+            {
+                context.Response.StatusCode = 401;
+                return;
+            }
+
+            await context.Response.WriteAsJsonAsync(
+                new { path = IpcEndpointHygieneApi.GetAuditLogPath() },
+                new JsonSerializerOptions(SerializationHelpers.DefaultOptions)
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                    WriteIndented = true,
+                }
+            );
         }
 
         private async Task V3_GetBackupStatus(HttpContext context)

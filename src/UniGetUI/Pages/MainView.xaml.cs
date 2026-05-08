@@ -33,6 +33,8 @@ namespace UniGetUI.Interface
         Updates,
         Installed,
         Bundles,
+        RemediationPlan,
+        EndpointHygieneDashboard,
         Settings,
         Managers,
         OwnLog,
@@ -48,6 +50,8 @@ namespace UniGetUI.Interface
         private readonly SoftwareUpdatesPage UpdatesPage;
         private readonly InstalledPackagesPage InstalledPage;
         private readonly PackageBundlesPage BundlesPage;
+        private RemediationPlanPage? RemediationPlanPage;
+        private EndpointHygieneDashboardPage? EndpointHygieneDashboardPage;
         private SettingsBasePage? SettingsPage;
         private SettingsBasePage? ManagersPage;
         private UniGetUILogPage? UniGetUILogPage;
@@ -220,6 +224,9 @@ namespace UniGetUI.Interface
                 PageType.Updates => UpdatesPage,
                 PageType.Installed => InstalledPage,
                 PageType.Bundles => BundlesPage,
+                PageType.RemediationPlan => RemediationPlanPage ??= new RemediationPlanPage(),
+                PageType.EndpointHygieneDashboard =>
+                    EndpointHygieneDashboardPage ??= new EndpointHygieneDashboardPage(),
                 PageType.Settings => SettingsPage ??= new SettingsBasePage(false),
                 PageType.Managers => ManagersPage ??= new SettingsBasePage(true),
                 PageType.OwnLog => UniGetUILogPage ??= new UniGetUILogPage(),
@@ -242,6 +249,8 @@ namespace UniGetUI.Interface
                 PageType.Managers => PageType.Discover,
 
                 // "Extra" pages
+                PageType.RemediationPlan => PageType.Discover,
+                PageType.EndpointHygieneDashboard => PageType.Discover,
                 PageType.OperationHistory => PageType.Discover,
                 PageType.OwnLog => PageType.Discover,
                 PageType.ManagerLog => PageType.Discover,
@@ -262,6 +271,8 @@ namespace UniGetUI.Interface
                 PageType.Managers => PageType.Settings,
 
                 // "Extra" pages
+                PageType.RemediationPlan => PageType.Discover,
+                PageType.EndpointHygieneDashboard => PageType.Discover,
                 PageType.OperationHistory => PageType.Discover,
                 PageType.OwnLog => PageType.Discover,
                 PageType.ManagerLog => PageType.Discover,
@@ -374,6 +385,12 @@ namespace UniGetUI.Interface
 
         private void OperationHistoryMenu_Click(object sender, RoutedEventArgs e) =>
             NavigateTo(PageType.OperationHistory);
+
+        private void RemediationPlanMenu_Click(object sender, RoutedEventArgs e) =>
+            NavigateTo(PageType.RemediationPlan);
+
+        private void EndpointHygieneDashboardMenu_Click(object sender, RoutedEventArgs e) =>
+            NavigateTo(PageType.EndpointHygieneDashboard);
 
         private void ManagerLogsMenu_Click(object sender, RoutedEventArgs e) => OpenManagerLogs();
 

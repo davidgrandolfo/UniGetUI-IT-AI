@@ -39,6 +39,18 @@
           IconName="history"
           Text="Operation history"
         />
+        <widgets:BetterMenuItem
+          Name="RemediationPlanMenu"
+          Click="RemediationPlanMenu_Click"
+          IconName="shield"
+          Text="Remediation plan"
+        />
+        <widgets:BetterMenuItem
+          Name="EndpointHygieneDashboardMenu"
+          Click="EndpointHygieneDashboardMenu_Click"
+          IconName="data_usage"
+          Text="Endpoint hygiene dashboard"
+        />
         <MenuFlyoutSeparator Height="5" />
         <widgets:BetterMenuItem x:Name="VersionMenuItem" IconName="info_round" IsEnabled="False" />
         <widgets:BetterMenuItem

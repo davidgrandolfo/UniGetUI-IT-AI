@@ -1,0 +1,27 @@
+<Page
+    x:Class="UniGetUI.Interface.SoftwarePages.EndpointHygieneDashboardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid Padding="16" RowSpacing="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock FontSize="28" FontWeight="SemiBold" Text="Endpoint Hygiene Dashboard" />
+            <TextBlock x:Name="GeneratedText" Opacity="0.7" Text="Loading dashboard..." />
+        </StackPanel>
+
+        <StackPanel x:Name="MetricsPanel" Grid.Row="1" Spacing="8">
+            <TextBlock x:Name="OutdatedText" />
+            <TextBlock x:Name="RiskText" />
+            <TextBlock x:Name="FailuresText" />
+            <TextBlock x:Name="SourcesText" />
+            <TextBlock x:Name="ScoreText" FontWeight="SemiBold" />
+        </StackPanel>
+    </Grid>
+</Page>
