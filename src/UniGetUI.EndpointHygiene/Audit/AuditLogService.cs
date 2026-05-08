@@ -5,6 +5,8 @@ namespace UniGetUI.EndpointHygiene.Audit;
 
 public sealed class AuditLogService
 {
+    private static readonly SemaphoreSlim AppendLock = new(1, 1);
+
     private readonly string _auditPath = Path.Combine(
         CoreData.UniGetUIDataDirectory,
         "EndpointHygiene",
@@ -15,7 +17,23 @@ public sealed class AuditLogService
     {
         Directory.CreateDirectory(Path.GetDirectoryName(_auditPath)!);
         string json = JsonSerializer.Serialize(entry);
-        await File.AppendAllTextAsync(_auditPath, json + Environment.NewLine, cancellationToken);
+
+        await AppendLock.WaitAsync(cancellationToken);
+        try
+        {
+            await using FileStream stream = new(
+                _auditPath,
+                FileMode.Append,
+                FileAccess.Write,
+                FileShare.Read
+            );
+            await using StreamWriter writer = new(stream);
+            await writer.WriteLineAsync(json);
+        }
+        finally
+        {
+            AppendLock.Release();
+        }
     }
 
     public async Task<IReadOnlyList<AuditLogEntry>> ReadAsync(CancellationToken cancellationToken = default)

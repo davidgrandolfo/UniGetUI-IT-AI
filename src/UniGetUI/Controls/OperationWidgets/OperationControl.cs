@@ -187,17 +187,25 @@ public partial class OperationControl : INotifyPropertyChanged
 
         List<string> newHistory = [.. rawOutput, .. oldHistory];
         Settings.SetValue(Settings.K.OperationHistory, string.Join('\n', newHistory));
-        await EndpointHygieneBootstrap.Audit.AppendAsync(
-            new AuditLogEntry
-            {
-                Actor = Environment.UserName,
-                Action = Operation.Metadata.Title,
-                Target = Operation.Metadata.Identifier,
-                Result = Operation.Status.ToString(),
-                Reason = Operation.Metadata.OperationInformation,
-                AiRecommendation = "N/A",
-            }
-        );
+        try
+        {
+            await EndpointHygieneBootstrap.Audit.AppendAsync(
+                new AuditLogEntry
+                {
+                    Actor = Environment.UserName,
+                    Action = Operation.Metadata.Title,
+                    Target = Operation.Metadata.Identifier,
+                    Result = Operation.Status.ToString(),
+                    Reason = Operation.Metadata.OperationInformation,
+                    AiRecommendation = "N/A",
+                }
+            );
+        }
+        catch (Exception ex)
+        {
+            Logger.Warn("Failed to append endpoint hygiene audit entry.");
+            Logger.Warn(ex);
+        }
         rawOutput.Add("");
         rawOutput.Add("");
         rawOutput.Add("");

@@ -1,4 +1,5 @@
 using UniGetUI.EndpointHygiene.Models;
+using UniGetUI.EndpointHygiene.Services;
 
 namespace UniGetUI.EndpointHygiene.Risk;
 
@@ -62,10 +63,12 @@ public sealed class RiskScoreService : IRiskScoreService
             reasons.Add("Publisher is blocked by policy.");
         }
 
+        int boundedScore = Math.Min(score, HygieneDefaults.MaxRiskScorePerItem);
+
         return new RiskScoreResult
         {
-            Score = score,
-            Level = MapLevel(score),
+            Score = boundedScore,
+            Level = MapLevel(boundedScore),
             Reasons = reasons,
             Factors = factors,
         };
